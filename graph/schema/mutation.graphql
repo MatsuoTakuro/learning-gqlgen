@@ -1,0 +1,4 @@
+type MyMutation {
+    createTodo(todo: TodoInput!): Todo!
+    updateTodo(id: ID!, changes: Map!): Todo
+}

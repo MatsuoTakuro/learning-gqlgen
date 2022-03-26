@@ -228,37 +228,20 @@ func (ec *executionContext) introspectType(name string) (*introspection.Type, er
 }
 
 var sources = []*ast.Source{
-	{Name: "graph/schema.graphqls", Input: `schema {
-    query: MyQuery
-    mutation: MyMutation
-}
-
-type MyQuery {
-    todo(id: ID!): Todo
-    lastTodo: Todo
-    todos: [Todo!]!
-}
-
-type MyMutation {
-    createTodo(todo: TodoInput!): Todo!
-    updateTodo(id: ID!, changes: Map!): Todo
-}
-
-type Todo {
-    id: ID!
-    text: String!
-    done: Boolean! @hasRole(role: OWNER) # only the owner can see if a todo is done
-}
-
-"Passed to createTodo to create a new todo"
+	{Name: "graph/schema/input.graphql", Input: `"Passed to createTodo to create a new todo"
 input TodoInput {
     "The body text"
     text: String!
     "Is it done already?"
     done: Boolean
 }
-
-scalar Map
+`, BuiltIn: false},
+	{Name: "graph/schema/mutation.graphql", Input: `type MyMutation {
+    createTodo(todo: TodoInput!): Todo!
+    updateTodo(id: ID!, changes: Map!): Todo
+}
+`, BuiltIn: false},
+	{Name: "graph/schema/others.graphql", Input: `scalar Map
 
 "Prevents access to a field if the user doesnt have the matching role"
 directive @hasRole(role: Role!) on FIELD_DEFINITION
@@ -267,6 +250,24 @@ directive @user(id: ID!) on MUTATION | QUERY | FIELD
 enum Role {
     ADMIN
     OWNER
+}
+`, BuiltIn: false},
+	{Name: "graph/schema/query.graphql", Input: `
+type MyQuery {
+    todo(id: ID!): Todo
+    lastTodo: Todo
+    todos: [Todo!]!
+}
+`, BuiltIn: false},
+	{Name: "graph/schema/schema.graphql", Input: `schema {
+    query: MyQuery
+    mutation: MyMutation
+}
+`, BuiltIn: false},
+	{Name: "graph/schema/type.graphql", Input: `type Todo {
+    id: ID!
+    text: String!
+    done: Boolean! @hasRole(role: OWNER) # only the owner can see if a todo is done
 }
 `, BuiltIn: false},
 }

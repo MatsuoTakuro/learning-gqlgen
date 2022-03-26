@@ -1,0 +1,7 @@
+"Passed to createTodo to create a new todo"
+input TodoInput {
+    "The body text"
+    text: String!
+    "Is it done already?"
+    done: Boolean
+}

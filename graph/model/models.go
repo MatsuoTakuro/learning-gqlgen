@@ -8,13 +8,8 @@ type Todo struct {
 	ID    int
 	Text  string
 	Done  bool
-	owner *User
+	Owner *User
 }
-
-func (t Todo) Owner() *User {
-	return t.owner
-}
-
 type User struct {
 	ID   int
 	Name string

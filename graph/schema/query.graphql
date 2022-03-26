@@ -1,0 +1,6 @@
+
+type MyQuery {
+    todo(id: ID!): Todo
+    lastTodo: Todo
+    todos: [Todo!]!
+}
