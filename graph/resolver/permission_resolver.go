@@ -28,7 +28,7 @@ func getUserId(ctx context.Context) int {
 
 func New() generated.Config {
 	c := generated.Config{
-		Resolvers: &resolver{
+		Resolvers: &Resolver{
 			todos: []*model.Todo{
 				{ID: 1, Text: "A todo not to forget", Done: false, Owner: you},
 				{ID: 2, Text: "This is the most important", Done: false, Owner: you},

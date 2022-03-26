@@ -14,12 +14,6 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-type myMutationResolver resolver
-
-func (r *resolver) MyMutation() generated.MyMutationResolver {
-	return (*myMutationResolver)(r)
-}
-
 func (r *myMutationResolver) CreateTodo(ctx context.Context, todo model.TodoInput) (*model.Todo, error) {
 	newID := r.id()
 
@@ -37,6 +31,7 @@ func (r *myMutationResolver) CreateTodo(ctx context.Context, todo model.TodoInpu
 
 	return newTodo, nil
 }
+
 func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes map[string]interface{}) (*model.Todo, error) {
 	var affectedTodo *model.Todo
 
@@ -60,6 +55,12 @@ func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes 
 
 	return affectedTodo, nil
 }
+
+// MyMutation returns generated.MyMutationResolver implementation.
+func (r *Resolver) MyMutation() generated.MyMutationResolver { return &myMutationResolver{r} }
+
+type myMutationResolver struct{ *Resolver }
+
 func (r *myMutationResolver) id() int {
 	r.lastID++
 	return r.lastID

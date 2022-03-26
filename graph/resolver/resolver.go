@@ -7,7 +7,7 @@ import (
 	"github.com/MatsuoTakuro/learning-gqlgen/graph/model"
 )
 
-type resolver struct {
+type Resolver struct {
 	todos  []*model.Todo
 	lastID int
 }

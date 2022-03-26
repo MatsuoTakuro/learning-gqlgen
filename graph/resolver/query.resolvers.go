@@ -15,12 +15,6 @@ import (
 	"github.com/MatsuoTakuro/learning-gqlgen/graph/model"
 )
 
-type myQueryResolver resolver
-
-func (r *resolver) MyQuery() generated.MyQueryResolver {
-	return (*myQueryResolver)(r)
-}
-
 func (r *myQueryResolver) Todo(ctx context.Context, id string) (*model.Todo, error) {
 	time.Sleep(220 * time.Millisecond)
 
@@ -37,12 +31,19 @@ func (r *myQueryResolver) Todo(ctx context.Context, id string) (*model.Todo, err
 	}
 	return nil, errors.New("not found")
 }
+
 func (r *myQueryResolver) LastTodo(ctx context.Context) (*model.Todo, error) {
 	if len(r.todos) == 0 {
 		return nil, errors.New("not found")
 	}
 	return r.todos[len(r.todos)-1], nil
 }
+
 func (r *myQueryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 	return r.todos, nil
 }
+
+// MyQuery returns generated.MyQueryResolver implementation.
+func (r *Resolver) MyQuery() generated.MyQueryResolver { return &myQueryResolver{r} }
+
+type myQueryResolver struct{ *Resolver }
