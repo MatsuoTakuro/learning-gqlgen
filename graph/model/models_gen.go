@@ -8,12 +8,6 @@ import (
 	"strconv"
 )
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-}
-
 // Passed to createTodo to create a new todo
 type TodoInput struct {
 	// The body text
