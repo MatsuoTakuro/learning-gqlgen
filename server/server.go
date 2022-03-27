@@ -21,7 +21,7 @@ func main() {
 		return errors.New("user message on panic")
 	})
 
-	http.Handle("/", playground.Handler("Todo", "/query"))
+	http.Handle("/", playground.Handler("learning-gqlgen", "/query"))
 	http.Handle("/query", srv)
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
