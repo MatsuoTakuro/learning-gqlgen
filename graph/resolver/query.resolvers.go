@@ -6,8 +6,6 @@ package resolver
 import (
 	"context"
 	"errors"
-	"fmt"
-	"reflect"
 	"strconv"
 	"time"
 
@@ -19,7 +17,9 @@ func (r *myQueryResolver) Todo(ctx context.Context, id string) (*model.Todo, err
 	time.Sleep(220 * time.Millisecond)
 
 	intId, err := strconv.Atoi(id)
-	fmt.Println(intId, err, reflect.TypeOf(intId))
+	if err != nil {
+		return nil, errors.New("invalid id")
+	}
 	if intId == 666 {
 		panic("critical failure")
 	}

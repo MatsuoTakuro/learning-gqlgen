@@ -5,8 +5,7 @@ package resolver
 
 import (
 	"context"
-	"fmt"
-	"reflect"
+	"errors"
 	"strconv"
 
 	"github.com/MatsuoTakuro/learning-gqlgen/graph/generated"
@@ -36,7 +35,9 @@ func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes 
 	var affectedTodo *model.Todo
 
 	intId, err := strconv.Atoi(id)
-	fmt.Println(intId, err, reflect.TypeOf(intId))
+	if err != nil {
+		return nil, errors.New("invalid id")
+	}
 	for i := 0; i < len(r.todos); i++ {
 		if r.todos[i].ID == intId {
 			affectedTodo = r.todos[i]
