@@ -1,11 +1,10 @@
-Docs
 query Todos{
   todos {
     id
     text
   }
 }
-​
+
 query Todo{
   todo(id: "3") {
     id
@@ -13,7 +12,7 @@ query Todo{
     done
   }
 }
-​
+
 query LastTodo{
   lastTodo {
     id
@@ -21,7 +20,7 @@ query LastTodo{
     done
   }
 }
-​
+
 mutation CreateTodo($createTodoInput: TodoInput!) {
   createTodo(todo: $createTodoInput) {
     id
@@ -29,7 +28,7 @@ mutation CreateTodo($createTodoInput: TodoInput!) {
     done
   }
 }
-​
+
 mutation UpdateTodo {
   updateTodo(id: "1", changes: { text: "updated text" }) {
     id
