@@ -1,0 +1,6 @@
+{
+  "createTodoInput": {
+    "text": "test",
+    "done": false
+  }
+}

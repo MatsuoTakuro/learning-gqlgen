@@ -1,0 +1,39 @@
+Docs
+query Todos{
+  todos {
+    id
+    text
+  }
+}
+​
+query Todo{
+  todo(id: "3") {
+    id
+    text
+    done
+  }
+}
+​
+query LastTodo{
+  lastTodo {
+    id
+    text
+    done
+  }
+}
+​
+mutation CreateTodo($createTodoInput: TodoInput!) {
+  createTodo(todo: $createTodoInput) {
+    id
+    text
+    done
+  }
+}
+​
+mutation UpdateTodo {
+  updateTodo(id: "1", changes: { text: "updated text" }) {
+    id
+    text
+    done
+  }
+}
