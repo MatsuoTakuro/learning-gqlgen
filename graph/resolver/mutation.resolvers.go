@@ -56,12 +56,12 @@ func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes 
 	return affectedTodo, nil
 }
 
-// MyMutation returns generated.MyMutationResolver implementation.
-func (r *Resolver) MyMutation() generated.MyMutationResolver { return &myMutationResolver{r} }
-
-type myMutationResolver struct{ *Resolver }
-
 func (r *myMutationResolver) id() int {
 	r.lastID++
 	return r.lastID
 }
+
+// MyMutation returns generated.MyMutationResolver implementation.
+func (r *Resolver) MyMutation() generated.MyMutationResolver { return &myMutationResolver{r} }
+
+type myMutationResolver struct{ *Resolver }
