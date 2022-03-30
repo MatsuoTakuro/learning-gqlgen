@@ -6,6 +6,7 @@ package resolver
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strconv"
 
 	"github.com/MatsuoTakuro/learning-gqlgen/graph/generated"
@@ -17,10 +18,10 @@ func (r *myMutationResolver) CreateTodo(ctx context.Context, todo model.TodoInpu
 	newID := r.id()
 
 	newTodo := &model.Todo{
-		ID:    newID,
-		Text:  todo.Text,
-		Owner: you,
+		ID:   newID,
+		Text: todo.Text,
 	}
+	newTodo.SetOwner(you)
 
 	if todo.Done != nil {
 		newTodo.Done = *todo.Done
@@ -28,11 +29,13 @@ func (r *myMutationResolver) CreateTodo(ctx context.Context, todo model.TodoInpu
 
 	r.todos = append(r.todos, newTodo)
 
+	fmt.Printf("NewTodo : %v\n", *newTodo)
+	fmt.Printf("Owner : %v\n\n", *newTodo.Owner())
 	return newTodo, nil
 }
 
 func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes map[string]interface{}) (*model.Todo, error) {
-	var affectedTodo *model.Todo
+	var updatedTodo *model.Todo
 
 	intId, err := strconv.Atoi(id)
 	if err != nil {
@@ -40,21 +43,22 @@ func (r *myMutationResolver) UpdateTodo(ctx context.Context, id string, changes 
 	}
 	for i := 0; i < len(r.todos); i++ {
 		if r.todos[i].ID == intId {
-			affectedTodo = r.todos[i]
+			updatedTodo = r.todos[i]
 			break
 		}
 	}
 
-	if affectedTodo == nil {
+	if updatedTodo == nil {
 		return nil, nil
 	}
 
-	err = mapstructure.Decode(changes, affectedTodo)
+	err = mapstructure.Decode(changes, updatedTodo)
 	if err != nil {
 		panic(err)
 	}
-
-	return affectedTodo, nil
+	fmt.Printf("UpdatedTodo : %v\n", updatedTodo)
+	fmt.Printf("Owner : %v\n\n", updatedTodo.Owner())
+	return updatedTodo, nil
 }
 
 func (r *myMutationResolver) id() int {

@@ -27,15 +27,27 @@ func getUserId(ctx context.Context) int {
 }
 
 func New() generated.Config {
+	t1 := model.Todo{ID: 1, Text: "A todo not to forget", Done: false}
+	t1.SetOwner(you)
+
+	t2 := model.Todo{ID: 2, Text: "This is the most important", Done: false}
+	t2.SetOwner(you)
+
+	t3 := model.Todo{ID: 3, Text: "Somebody else's todo", Done: false}
+	t3.SetOwner(them)
+
+	t4 := model.Todo{ID: 4, Text: "Please do this or else", Done: false}
+	t4.SetOwner(you)
+
 	c := generated.Config{
 		Resolvers: &Resolver{
 			todos: []*model.Todo{
-				{ID: 1, Text: "A todo not to forget", Done: false, Owner: you},
-				{ID: 2, Text: "This is the most important", Done: false, Owner: you},
-				{ID: 3, Text: "Somebody else's todo", Done: true, Owner: them},
-				{ID: 4, Text: "Please do this or else", Done: false, Owner: you},
+				&t1,
+				&t2,
+				&t3,
+				&t4,
 			},
-			lastID: 4,
+			lastID: t4.ID,
 		},
 	}
 	c.Directives.HasRole = func(ctx context.Context, obj interface{}, next graphql.Resolver, role model.Role) (interface{}, error) {

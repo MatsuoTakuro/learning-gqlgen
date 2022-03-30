@@ -6,6 +6,7 @@ package resolver
 import (
 	"context"
 	"errors"
+	"fmt"
 	"strconv"
 	"time"
 
@@ -26,6 +27,8 @@ func (r *myQueryResolver) Todo(ctx context.Context, id string) (*model.Todo, err
 
 	for _, todo := range r.todos {
 		if todo.ID == intId {
+			fmt.Printf("Todo : %v\n", *todo)
+			fmt.Printf("Owner : %v\n\n", *todo.Owner())
 			return todo, nil
 		}
 	}
@@ -36,10 +39,16 @@ func (r *myQueryResolver) LastTodo(ctx context.Context) (*model.Todo, error) {
 	if len(r.todos) == 0 {
 		return nil, errors.New("not found")
 	}
+	fmt.Printf("LastTodo : %v\n", *r.todos[len(r.todos)-1])
+	fmt.Printf("Owner : %v\n\n", *r.todos[len(r.todos)-1].Owner())
 	return r.todos[len(r.todos)-1], nil
 }
 
 func (r *myQueryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
+	for i, v := range r.todos {
+		fmt.Printf("Todos #%v : %v\n", i+1, *v)
+		fmt.Printf("Owner #%v : %v\n\n", i+1, *v.Owner())
+	}
 	return r.todos, nil
 }
 
